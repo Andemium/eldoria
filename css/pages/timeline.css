@@ -1,0 +1,446 @@
+/* ==========================================================================
+   Страница «Летопись»: главы, статусы, события, счётчик времени (sections/timeline.html)
+   ========================================================================== */
+
+.timeline-page {
+    padding: 2rem;
+}
+
+.archive-layout {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+    min-height: 70vh;
+}
+
+/* Список глав (Оглавление) */
+.chapter-list {
+    background: linear-gradient(135deg, var(--color-bg-secondary), var(--color-bg-tertiary));
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: fit-content;
+}
+
+.chapter-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    opacity: 0.6;
+}
+
+.chapter-item:hover:not(.locked) {
+    background: rgba(168, 85, 247, 0.1);
+    border-color: var(--color-accent-purple);
+    opacity: 1;
+}
+
+.chapter-item.active {
+    background: rgba(168, 85, 247, 0.15);
+    border-color: var(--color-accent-purple);
+    opacity: 1;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
+}
+
+.chapter-status {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--color-bg-primary);
+    border: 2px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-secondary);
+    flex-shrink: 0;
+}
+
+.chapter-item.active .chapter-status {
+    background: var(--color-accent-purple);
+    border-color: var(--color-accent-purple);
+    color: #fff;
+}
+
+.chapter-info h4 {
+    font-size: 1.1rem;
+    color: var(--color-text-primary);
+    margin-bottom: 0.2rem;
+}
+
+.chapter-sub {
+    font-size: 0.8rem;
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+}
+
+/* Область просмотра главы */
+.chapter-viewer {
+    background: linear-gradient(135deg, var(--color-bg-secondary), var(--color-bg-tertiary));
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 3rem;
+    position: relative;
+    overflow-y: auto;
+    max-height: 80vh;
+}
+
+.chapter-content {
+    display: none;
+    animation: fadeIn 0.5s ease;
+}
+
+.chapter-content.active {
+    display: block;
+}
+
+.chapter-hero {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+}
+
+.chapter-hero h3 {
+    font-size: 2rem;
+    color: var(--color-accent-purple);
+    margin-bottom: 1rem;
+}
+
+.chapter-meta {
+    display: flex;
+    gap: 2rem;
+    color: var(--color-text-secondary);
+    font-size: 0.95rem;
+}
+
+.chapter-meta i {
+    color: var(--color-accent-blue);
+    margin-right: 0.5rem;
+}
+
+.event-block {
+    margin-bottom: 2.5rem;
+}
+
+.event-block h4 {
+    font-size: 1.3rem;
+    color: var(--color-accent-blue);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.event-block h4 i {
+    color: var(--color-accent-purple);
+}
+
+.event-block p {
+    color: var(--color-text-primary);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.quest-desc {
+    background: rgba(59, 130, 246, 0.05);
+    padding: 1rem;
+    border-left: 3px solid var(--color-accent-blue);
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 1rem;
+}
+
+.quest-steps {
+    list-style: none;
+    padding: 0;
+}
+
+.quest-steps li {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--color-text-secondary);
+}
+
+.quest-steps li strong {
+    color: var(--color-accent-light);
+}
+
+/* Разделитель типов глав */
+.chapter-type {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--color-accent-purple);
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: 700;
+}
+
+/* Статус "В процессе" (Луна) */
+.chapter-status.current {
+    background: var(--color-accent-blue);
+    border-color: var(--color-accent-blue);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+}
+
+/* Блок текущего статуса внутри главы */
+.current-status {
+    background: rgba(59, 130, 246, 0.05);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+}
+
+.current-status h4 {
+    color: var(--color-accent-blue);
+}
+
+.status-badge.pulsing {
+    display: inline-block;
+    background: var(--color-accent-blue);
+    color: #fff;
+    padding: 0.4rem 1.2rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-top: 1rem;
+    animation: pulseBadge 2s infinite;
+}
+
+/* Введение к главе */
+.chapter-intro {
+    font-style: italic;
+    color: var(--color-text-secondary);
+    border-left: 3px solid var(--color-accent-purple);
+    padding-left: 1rem;
+    margin-top: 1rem;
+}
+
+/* Бейдж "Завершён" */
+.completed-badge {
+    background: #10b981;
+    color: #fff;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-left: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* Стилизованные цитаты */
+.event-block blockquote {
+    border-left: 4px solid var(--color-accent-purple);
+    padding: 1rem 1.5rem;
+    margin: 1rem 0;
+    background: rgba(168, 85, 247, 0.05);
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: var(--color-text-primary);
+}
+
+/* Блок последствий */
+.consequences {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.08), rgba(59, 130, 246, 0.05));
+    border: 1px solid var(--color-accent-purple);
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.consequence-block {
+    background: rgba(10, 10, 15, 0.5);
+    border-left: 4px solid var(--color-accent-blue);
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0 8px 8px 0;
+}
+
+.consequence-block:last-child {
+    margin-bottom: 0;
+}
+
+.consequence-block h5 {
+    font-size: 1.1rem;
+    color: var(--color-accent-blue);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.consequence-block h5 i {
+    color: var(--color-accent-purple);
+}
+
+.consequence-block p {
+    color: var(--color-text-primary);
+    line-height: 1.7;
+    margin-bottom: 0.5rem;
+}
+
+.consequence-block.warning-block {
+    border-left-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.05);
+}
+
+.consequence-block.warning-block h5 {
+    color: #f59e0b;
+}
+
+.consequence-block.warning-block blockquote {
+    border-left-color: #f59e0b;
+    background: rgba(245, 158, 11, 0.05);
+    color: var(--color-text-primary);
+}
+
+/* Статусы событий */
+.event-block.highlight {
+    background: rgba(168, 85, 247, 0.05);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2.5rem;
+}
+
+.status-divider {
+    color: var(--color-border);
+    font-size: 0.6rem;
+}
+
+.chapter-sub i.fa-clock {
+    color: var(--color-accent-purple);
+    font-size: 0.75rem;
+}
+
+.chapter-item.active .chapter-sub i.fa-clock {
+    color: var(--color-accent-blue);
+}
+
+.chapter-item.completed .chapter-sub i.fa-clock {
+    color: #10b981;
+}
+
+.event-block.tragedy {
+    background: rgba(239, 68, 68, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2.5rem;
+}
+
+.event-block.tragedy h4 {
+    color: #ef4444;
+}
+
+.event-block.tragedy h4 i {
+    color: #ef4444;
+}
+
+/* ----- Анимации ----- */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseBadge {
+    0% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+    }
+}
+
+/* ----- Адаптивность ----- */
+
+@media (max-width: 1024px) {
+    .archive-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .chapter-list {
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 1rem;
+    }
+
+    .chapter-item {
+        min-width: 250px;
+    }
+
+    .chapter-viewer {
+        max-height: none;
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .chapter-hero h3 {
+        font-size: 1.5rem;
+    }
+
+    .chapter-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .event-block h4 {
+        font-size: 1.1rem;
+    }
+
+    .completed-badge {
+        display: block;
+        margin: 1rem 0 0 0;
+        width: fit-content;
+    }
+
+    .consequences {
+        padding: 1.2rem;
+    }
+
+    .consequence-block {
+        padding: 1rem;
+    }
+
+    .event-block blockquote {
+        padding: 0.8rem 1rem;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .chapter-sub {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+    }
+
+    .status-divider {
+        display: none;
+    }
+}

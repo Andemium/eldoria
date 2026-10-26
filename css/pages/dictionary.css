@@ -1,0 +1,225 @@
+/* ==========================================================================
+   Страница «Словарь»: паутина знаний / созвездие терминов (sections/dictionary.html)
+   ========================================================================== */
+
+.dictionary-page {
+    position: relative;
+    overflow: hidden;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.constellation-container {
+    position: relative;
+    width: 100%;
+    height: 70vh; /* Фиксированная высота для области карты */
+    margin-top: 2rem;
+    background: radial-gradient(circle at center, rgba(20, 20, 35, 0.8) 0%, rgba(10, 10, 15, 1) 100%);
+    border-radius: 16px;
+    border: 1px solid var(--color-border);
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+    overflow: visible; /* Важно для драга */
+    touch-action: none; /* Отключаем стандартный скролл браузера внутри карты */
+    cursor: grab;
+    transition: transform 0.1s linear; /* Плавность для драга */
+}
+
+.connections-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.connection-line {
+    stroke: rgba(168, 85, 247, 0.15);
+    stroke-width: 1.5;
+    transition: all 0.4s ease;
+}
+
+.connection-line.active {
+    stroke: rgba(168, 85, 247, 0.9);
+    stroke-width: 2.5;
+    filter: drop-shadow(0 0 4px var(--color-accent-purple));
+}
+
+.connection-line.dimmed {
+    stroke: rgba(255, 255, 255, 0.03);
+}
+
+.constellation-node {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    -webkit-tap-highlight-color: transparent; /* Убираем синюю подсветку на Android */
+}
+
+.node-core {
+    width: 10px;
+    height: 10px;
+    background: var(--color-accent-purple);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--color-accent-purple);
+    transition: all 0.3s ease;
+}
+
+.node-glow {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: rgba(168, 85, 247, 0.2);
+    border-radius: 50%;
+    animation: pulseNode 3s infinite;
+}
+
+.node-label {
+    margin-top: 6px;
+    font-size: 0.8rem;
+    color: var(--color-text-primary);
+    text-shadow: 0 2px 4px black;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    background: rgba(0,0,0,0.5);
+    padding: 2px 6px;
+    border-radius: 4px;
+    pointer-events: none; /* Чтобы текст не мешал клику */
+}
+
+/* Активные состояния */
+.constellation-node:active .node-core,
+.constellation-node.active .node-core {
+    transform: scale(1.8);
+    background: #fff;
+    box-shadow: 0 0 15px #fff, 0 0 30px var(--color-accent-purple);
+}
+
+.constellation-node:active .node-label,
+.constellation-node.active .node-label {
+    opacity: 1;
+    color: #fff;
+    font-weight: bold;
+    transform: scale(1.1);
+}
+
+.constellation-node.dimmed {
+    opacity: 0.2;
+    filter: grayscale(1);
+}
+
+/* Информационная панель */
+.term-info-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: 50vh;
+    background: rgba(15, 15, 25, 0.98);
+    backdrop-filter: blur(15px);
+    border-top: 1px solid var(--color-accent-purple);
+    border-radius: 20px 20px 0 0;
+    padding: 1.5rem 2rem 2rem;
+    z-index: 100;
+    transform: translateY(110%);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 -10px 40px rgba(0,0,0,0.8);
+    overflow-y: auto;
+}
+
+.term-info-panel.active {
+    transform: translateY(0);
+}
+
+.term-info-panel h3 {
+    color: var(--color-accent-purple);
+    margin-bottom: 0.8rem;
+    font-size: 1.4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-panel-btn {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: var(--color-text-secondary);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.term-info-panel p {
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+    font-size: 0.95rem;
+}
+
+.panel-connections span {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.connection-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.conn-tag {
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    color: var(--color-accent-light);
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+
+/* ----- Анимации ----- */
+
+@keyframes pulseNode {
+    0% {
+        transform: scale(1);
+        opacity: 0.4;
+    }
+    50% {
+        transform: scale(1.6);
+        opacity: 0.1;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.4;
+    }
+}
+
+/* ----- Адаптивность ----- */
+
+@media (max-width: 380px) {
+    .node-label {
+        font-size: 0.7rem;
+    }
+
+    .node-core {
+        width: 8px;
+        height: 8px;
+    }
+}

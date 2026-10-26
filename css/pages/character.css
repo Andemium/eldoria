@@ -1,0 +1,104 @@
+/* ==========================================================================
+   Страница «Создание персонажа» (sections/character.html)
+   ========================================================================== */
+
+.character-content {
+    max-width: 900px;
+}
+
+.char-block {
+    background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-tertiary) 100%);
+    border: 2px solid var(--color-border);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.char-block h3 {
+    font-size: 1.8rem;
+    color: var(--color-accent-purple);
+    margin-bottom: 1.5rem;
+}
+
+.char-block.warning {
+    border-color: #f59e0b;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, var(--color-bg-tertiary) 100%);
+}
+
+.char-block.warning h3 {
+    color: #f59e0b;
+}
+
+.race-list,
+.class-list {
+    list-style: none;
+    padding: 0;
+}
+
+.race-list li,
+.class-list li {
+    padding: 0.8rem 1.5rem;
+    background: rgba(45, 45, 68, 0.3);
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    border-left: 3px solid var(--color-accent-blue);
+    color: var(--color-text-primary);
+    font-size: 1.1rem;
+}
+
+.class-detail {
+    background: rgba(45, 45, 68, 0.3);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.class-detail h4 {
+    font-size: 1.3rem;
+    color: var(--color-accent-blue);
+    margin-bottom: 1rem;
+}
+
+.class-detail p {
+    color: var(--color-text-primary);
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+.class-detail strong {
+    color: var(--color-accent-light);
+}
+
+/* ----- Адаптивность ----- */
+
+@media (max-width: 768px) {
+    /* Character */
+    .char-block {
+        padding: 1.5rem;
+    }
+
+    .class-detail {
+        padding: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Character */
+    .char-block h3 {
+        font-size: 1.4rem;
+    }
+
+    .class-detail h4 {
+        font-size: 1.1rem;
+    }
+
+    .class-detail p {
+        font-size: 0.95rem;
+    }
+
+    .race-list li,
+    .class-list li {
+        padding: 0.7rem 1rem;
+        font-size: 1rem;
+    }
+}

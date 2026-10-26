@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Словарь - Эльдория</title>
+    <meta name="description" content="Словарь Эльдории: Резонанс, Тишина, Якоря и другие термины мира — в виде интерактивной паутины знаний.">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Эльдория">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:title" content="Словарь - Эльдория">
+    <meta property="og:description" content="Словарь Эльдории: Резонанс, Тишина, Якоря и другие термины мира — в виде интерактивной паутины знаний.">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+    <div id="main-content" class="visible">
+        <!-- Sidebar (стандартный) -->
+        <nav class="sidebar"></nav>
+        <script src="../js/sidebar.js"></script>
+
+        <main class="content dictionary-page">
+            <div class="content-header">
+                <h2><i class="fas fa-project-diagram"></i> Паутина Знаний</h2>
+                <p>Нажмите на термин, чтобы раскрыть его суть и увидеть связи</p>
+            </div>
+
+            <!-- Контейнер для SVG линий и узлов -->
+            <div class="constellation-container" id="constellationMap">
+                <svg class="connections-layer" id="connectionsSvg"></svg>
+                <!-- Узлы будут добавлены через JS -->
+            </div>
+
+            <!-- Информационная панель (появляется при клике) -->
+            <div class="term-info-panel" id="termInfoPanel">
+                <button class="close-panel-btn"><i class="fas fa-times"></i></button>
+                <h3 id="panelTitle">Название термина</h3>
+                <p id="panelDesc">Описание термина...</p>
+                <div class="panel-connections" id="panelConnections">
+                    <span>Связано с:</span>
+                    <div class="connection-tags" id="connectionTags"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/reveal.js"></script>
+    <script src="../js/data/dictionary-terms.js"></script>
+    <script src="../js/pages/dictionary.js"></script>
+</body>
+</html>

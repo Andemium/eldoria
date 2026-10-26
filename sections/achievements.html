@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Достижения - Эльдория</title>
+    <meta name="description" content="Достижения персонажей кампании по миру Эльдории.">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Эльдория">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:title" content="Достижения - Эльдория">
+    <meta property="og:description" content="Достижения персонажей кампании по миру Эльдории.">
+    <link rel="icon" type="image/png" href="../assets/favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+    <div id="main-content" class="visible">
+        <nav class="sidebar"></nav>
+        <script src="../js/sidebar.js"></script>
+
+        <main class="content achievements-page">
+            <div class="content-header">
+                <h2><i class="fas fa-trophy"></i> Зал Славы</h2>
+                <p>Выберите персонажа, чтобы увидеть его достижения</p>
+            </div>
+
+            <!-- Выбор персонажа -->
+            <div class="character-selector">
+                <button class="char-btn active" data-char="karla">
+                    <div class="char-avatar"><i class="fas fa-music"></i></div>
+                    <div class="char-info">
+                        <span class="player-name">Вова</span>
+                        <h3>Карла</h3>
+                        <span class="char-class">Эльф • Бард</span>
+                    </div>
+                </button>
+
+                <!-- Заглушки для будущих персонажей -->
+                <button class="char-btn locked" disabled>
+                    <div class="char-avatar"><i class="fas fa-question"></i></div>
+                    <div class="char-info">
+                        <span class="player-name">???</span>
+                        <h3>???</h3>
+                        <span class="char-class">??? • ???</span>
+                    </div>
+                </button>
+
+                <button class="char-btn locked" disabled>
+                    <div class="char-avatar"><i class="fas fa-question"></i></div>
+                    <div class="char-info">
+                        <span class="player-name">???</span>
+                        <h3>???</h3>
+                        <span class="char-class">??? • ???</span>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Таблица достижений Карлы -->
+            <div id="achievements-karla" class="achievements-list active">
+                <div class="achievement-card unlocked">
+                    <div class="ach-icon"><i class="fas fa-gavel"></i></div>
+                    <div class="ach-content">
+                        <h3>Американский Полицейский</h3>
+                        <p class="ach-desc">Убить чернокожего напарника</p>
+                        <span class="ach-date">Получено: Акт II, Лаборатория под колодцем</span>
+                    </div>
+                    <div class="ach-badge"><i class="fas fa-check-circle"></i></div>
+                </div>
+
+                <!-- Скрытые достижения -->
+                <div class="achievement-card locked">
+                    <div class="ach-icon blur"><i class="fas fa-lock"></i></div>
+                    <div class="ach-content blur">
+                        <h3>??????????????????</h3>
+                        <p class="ach-desc">????????????????????????????????????????</p>
+                        <span class="ach-date">Не получено</span>
+                    </div>
+                    <div class="ach-badge locked-badge"><i class="fas fa-lock"></i></div>
+                </div>
+
+                <div class="achievement-card locked">
+                    <div class="ach-icon blur"><i class="fas fa-lock"></i></div>
+                    <div class="ach-content blur">
+                        <h3>??????????????????</h3>
+                        <p class="ach-desc">????????????????????????????????????????</p>
+                        <span class="ach-date">Не получено</span>
+                    </div>
+                    <div class="ach-badge locked-badge"><i class="fas fa-lock"></i></div>
+                </div>
+
+                <div class="achievement-card locked">
+                    <div class="ach-icon blur"><i class="fas fa-lock"></i></div>
+                    <div class="ach-content blur">
+                        <h3>??????????????????</h3>
+                        <p class="ach-desc">????????????????????????????????????????</p>
+                        <span class="ach-date">Не получено</span>
+                    </div>
+                    <div class="ach-badge locked-badge"><i class="fas fa-lock"></i></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/reveal.js"></script>
+    <script src="../js/pages/achievements.js"></script>
+</body>
+</html>

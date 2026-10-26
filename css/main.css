@@ -1,0 +1,22 @@
+/* ==========================================================================
+   ЕДИНАЯ ТОЧКА ВХОДА ДЛЯ СТИЛЕЙ — именно этот файл подключён во всех HTML-страницах.
+   Порядок импортов важен (так работает каскад): общее -> страницы -> адаптивность.
+   Новая страница = новый файл в css/pages/ + одна строка здесь (до responsive.css).
+   ========================================================================== */
+
+/* Общее */
+@import url('base.css');
+@import url('layout.css');
+
+/* Страницы */
+@import url('pages/home.css');
+@import url('pages/maps.css');
+@import url('pages/settlements.css');
+@import url('pages/dictionary.css');
+@import url('pages/lore.css');
+@import url('pages/character.css');
+@import url('pages/timeline.css');
+@import url('pages/achievements.css');
+
+/* Общая адаптивность (всегда последней) */
+@import url('responsive.css');
